@@ -1,0 +1,7 @@
+E:\Downloads\WebDev\Demos\ADO.NET\bin\Debug\ADO.NET.exe.config
+E:\Downloads\WebDev\Demos\ADO.NET\bin\Debug\ADO.NET.exe
+E:\Downloads\WebDev\Demos\ADO.NET\bin\Debug\ADO.NET.pdb
+E:\Downloads\WebDev\Demos\ADO.NET\obj\Debug\ADO.NET.csproj.AssemblyReference.cache
+E:\Downloads\WebDev\Demos\ADO.NET\obj\Debug\ADO.NET.csproj.CoreCompileInputs.cache
+E:\Downloads\WebDev\Demos\ADO.NET\obj\Debug\ADO.NET.exe
+E:\Downloads\WebDev\Demos\ADO.NET\obj\Debug\ADO.NET.pdb
