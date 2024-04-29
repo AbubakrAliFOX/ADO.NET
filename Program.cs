@@ -308,7 +308,7 @@ namespace ADO.NET
                 CountryID = 3
             };
             //addContact(newContact);
-            //addContactAndGetAutoNumber(newContact);
+            addContactAndGetAutoNumber(newContact);
         }
     }
 }
