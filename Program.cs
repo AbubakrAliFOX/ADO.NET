@@ -37,6 +37,35 @@ namespace ADO.NET
             }
         }
 
+        static void deleteContact(int ID)
+        {
+            SqlConnection connection = new SqlConnection(connetionStr);
+            string query = @"Delete from Contacts where ContactID = @ID";
+
+            SqlCommand cmd = new SqlCommand(query, connection);
+            cmd.Parameters.AddWithValue("@ID", ID);
+
+            try
+            {
+                connection.Open();
+                int affectedRows = cmd.ExecuteNonQuery();
+
+                if (affectedRows > 0)
+                {
+                    Console.WriteLine("Record Added!");
+
+                }
+                else
+                {
+                    Console.WriteLine("Record Not Added!");
+                }
+                connection.Close();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error: " + ex.Message);
+            }
+        }
         static void updateContact(int ID, stContact contact)
         {
             SqlConnection connection = new SqlConnection(connetionStr);
@@ -352,6 +381,7 @@ namespace ADO.NET
             //addContact(newContact);
             //addContactAndGetAutoNumber(newContact);
             updateContact(9, newContact);
+            deleteContact(9);
         }
     }
 }
