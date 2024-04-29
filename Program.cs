@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Data.SqlClient;
 using System.Net;
 using System.Security.Policy;
+using System.Runtime.InteropServices.ComTypes;
 
 namespace ADO.NET
 {
@@ -33,6 +34,79 @@ namespace ADO.NET
                 Console.WriteLine($"Address: {Address}");
                 Console.WriteLine($"Country ID: {CountryID}");
                 Console.WriteLine();
+            }
+        }
+
+        static void addContactAndGetAutoNumber(stContact contact)
+        {
+            SqlConnection connection = new SqlConnection(connetionStr);
+            string query = @"INSERT INTO Contacts (FirstName, LastName, Email, Phone, Address, CountryID) 
+                            VALUES (@FirstName, @LastName, @Email, @Phone, @Address, @CountryID);
+                            Select SCOPE_IDENTITY();";
+
+            SqlCommand cmd = new SqlCommand(query, connection);
+            cmd.Parameters.AddWithValue("@ID", contact.ID);
+            cmd.Parameters.AddWithValue("@FirstName", contact.FirstName);
+            cmd.Parameters.AddWithValue("@LastName", contact.LastName);
+            cmd.Parameters.AddWithValue("@Email", contact.Email);
+            cmd.Parameters.AddWithValue("@Phone", contact.Phone);
+            cmd.Parameters.AddWithValue("@Address", contact.Address);
+            cmd.Parameters.AddWithValue("@CountryID", contact.CountryID);
+
+            try
+            {
+                connection.Open();
+                object result = cmd.ExecuteScalar();
+                
+                if (result != null && int.TryParse(result.ToString(), out int insertedID))
+                {
+                    Console.WriteLine($"Record Added!, inserted id = {insertedID}");
+
+                }
+                else
+                {
+                    Console.WriteLine("Record Not Added!");
+                }
+                connection.Close();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error: " + ex.Message);
+            }
+        }
+        static void addContact (stContact contact )
+        {
+            SqlConnection connection = new SqlConnection(connetionStr);
+            string query = @"INSERT INTO Contacts (FirstName, LastName, Email, Phone, Address, CountryID) 
+                            VALUES (@FirstName, @LastName, @Email, @Phone, @Address, @CountryID);";
+
+            SqlCommand cmd = new SqlCommand(query, connection);
+            cmd.Parameters.AddWithValue("@ID", contact.ID);
+            cmd.Parameters.AddWithValue("@FirstName", contact.FirstName);
+            cmd.Parameters.AddWithValue("@LastName", contact.LastName);
+            cmd.Parameters.AddWithValue("@Email", contact.Email);
+            cmd.Parameters.AddWithValue("@Phone", contact.Phone);
+            cmd.Parameters.AddWithValue("@Address", contact.Address);
+            cmd.Parameters.AddWithValue("@CountryID", contact.CountryID);
+
+            try
+            {
+                connection.Open();
+                int affectedRows = cmd.ExecuteNonQuery();
+
+                if (affectedRows > 0)
+                {
+                    Console.WriteLine("Record Added!");
+
+                }
+                else
+                {
+                    Console.WriteLine("Record Not Added!");
+                }
+                connection.Close();
+            } catch (Exception ex)
+            {
+                Console.WriteLine("Error: " + ex.Message);
             }
         }
         static bool findContactById(int ID, ref stContact contact)
@@ -214,17 +288,27 @@ namespace ADO.NET
         }
         static void Main(string[] args)
         {
-            //printAllContacts();
+            printAllContacts();
             //printAllContactsWithFirstName("Jane",2);
             //searchContactsStartsWithLetter("m");
-            stContact contact = new stContact();
-            if (findContactById(1, ref contact)) {
-                contact.printInfo();
-            } else
+            //stContact contact = new stContact();
+            //if (findContactById(1, ref contact)) {
+            //    contact.printInfo();
+            //} else
+            //{
+            //    Console.WriteLine("Not Found!!");
+            //}
+            stContact newContact = new stContact
             {
-                Console.WriteLine("Not Found!!");
-            }
-
+                FirstName = "Brooo",
+                LastName = "Haaa",
+                Phone = "99895990",
+                Email = "fdsaf@gmail.com",
+                Address = "Main 132 St",
+                CountryID = 3
+            };
+            //addContact(newContact);
+            //addContactAndGetAutoNumber(newContact);
         }
     }
 }
