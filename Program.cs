@@ -37,6 +37,48 @@ namespace ADO.NET
             }
         }
 
+        static void updateContact(int ID, stContact contact)
+        {
+            SqlConnection connection = new SqlConnection(connetionStr);
+            string query = @"Update Contacts set 
+                                            FirstName = @FirstName,
+                                            LastName = @LastName, 
+                                            Email = @Email, 
+                                            Phone = @Phone, 
+                                            Address = @Address,
+                                            CountryID = @CountryID
+                                            where ContactID = @ID";
+
+            SqlCommand cmd = new SqlCommand(query, connection);
+            cmd.Parameters.AddWithValue("@ID", ID);
+            cmd.Parameters.AddWithValue("@FirstName", contact.FirstName);
+            cmd.Parameters.AddWithValue("@LastName", contact.LastName);
+            cmd.Parameters.AddWithValue("@Email", contact.Email);
+            cmd.Parameters.AddWithValue("@Phone", contact.Phone);
+            cmd.Parameters.AddWithValue("@Address", contact.Address);
+            cmd.Parameters.AddWithValue("@CountryID", contact.CountryID);
+
+            try
+            {
+                connection.Open();
+                int affectedRows= cmd.ExecuteNonQuery();
+
+                if (affectedRows > 0)
+                {
+                    Console.WriteLine("Record Added!");
+
+                }
+                else
+                {
+                    Console.WriteLine("Record Not Added!");
+                }
+                connection.Close();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error: " + ex.Message);
+            }
+        }
         static void addContactAndGetAutoNumber(stContact contact)
         {
             SqlConnection connection = new SqlConnection(connetionStr);
@@ -301,14 +343,15 @@ namespace ADO.NET
             stContact newContact = new stContact
             {
                 FirstName = "Brooo",
-                LastName = "Haaa",
+                LastName = "Jack",
                 Phone = "99895990",
                 Email = "fdsaf@gmail.com",
                 Address = "Main 132 St",
                 CountryID = 3
             };
             //addContact(newContact);
-            addContactAndGetAutoNumber(newContact);
+            //addContactAndGetAutoNumber(newContact);
+            updateContact(9, newContact);
         }
     }
 }
